@@ -1,0 +1,42 @@
+function [bits,s] = simple_param_code(D0, D1, FRAG, ATTEN, msg)
+%function [msg, bits, code1,code2, s, err] = simple_param_code(D0, D1, FRAG, ATTEN, msg)
+%D0:delay 0
+%D1:delay 1
+%FRAG:fragment
+%ATTEN:attenuation of echo
+
+
+%return value
+%bits:original bits
+%s:the original  voice
+
+
+bits = str2bit(msg);
+
+[s, fs] = audioread('test.wav');%audioread
+%[s, fs, nbits] = wavread('s1.wav');%audioread 
+s = s';    %载体音频
+s_len = length(s);
+t_len = length(bits) * FRAG;  %FRAG为音频分段长度
+%载体音频长度不够时，自动扩充载体长度
+if s_len < t_len
+    multiple = floor(t_len / s_len);
+    remainder = mod(t_len, s_len);
+    tmp = [];
+    for i = 1:multiple
+        tmp = [tmp s];
+    end;
+    tmp = [tmp s(1:remainder)];
+    s = tmp;
+end;
+    
+%hide information具体负责音频信息隐藏
+bld = hide_simple(D0, D1, FRAG, bits, s, ATTEN);
+
+if exist('hide.wav','file')
+    delete('hide.wav');
+end
+
+%保存涉密音频文件
+wavwrite( bld, fs,'hide.wav');
+disp('hide.wav is writen')

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<!-- <script type="text/javascript" src="../layui/layui.js"></script> -->
+		<script type="text/javascript" src="plugin/layui/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="plugin/layui/css/layui.css">
+		<script src="plugin/layui/extend/city-picker/city-picker.data.js"></script>
+		<link rel="stylesheet" type="text/css" href="plugin/layui/extend/city-picker/city-picker.css">
+	</head>
+	<body>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+			  <label class="layui-form-label">用户id</label>
+			  <div class="layui-input-block">
+			    <input type="text" name="cusId" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input cusName">
+			  </div>
+			</div>
+			
+			<div class="layui-form-item">
+			  <label class="layui-form-label">用户名</label>
+			  <div class="layui-input-block">
+			    <input type="text" name="cusName" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input cusName">
+			  </div>
+			</div>
+			
+		    <div class="layui-form-item">
+			  <label class="layui-form-label">修改密码</label>
+		      <div class="layui-input-inline">
+		        <input type="password" name="cusPassWord" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input cusPassWord">
+		      </div>
+		      <div class="layui-form-mid layui-word-aux">长度为6-16位字符</div>
+		    </div>
+		  
+		    <div class="layui-form-item">
+		      <label class="layui-form-label">修改联系方式</label>
+		      <div class="layui-input-block">
+		      <input type="text" name="cusTel" required  lay-verify="required" placeholder="请输入联系方式" autocomplete="off" class="layui-input cusTel">
+		      </div>
+		    </div>
+			
+			<div class="layui-form-item">
+			  <label class="layui-form-label">修改住址</label>
+			  <div class="layui-input-block">
+			  <input type="text" name="cusLoc" required  lay-verify="required" placeholder="请输入住址" autocomplete="off" class="layui-input cusLoc">
+			  </div>
+			</div>
+			
+	
+		    <div class="layui-form-item layui-row layui-col-xs12">
+		  	  <div class="layui-input-block">
+		      <button class="layui-btn layui-btn-m" lay-submit="" lay-filter="editPackage">修改</button>
+			  <button type="button" class="layui-btn layui-btn-m layui-btn-primary cancle_btn">取消</button>
+			</div>
+		    </div>
+		  
+		  
+		</form>
+
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="layui/layui.js"></script>
+		 
+		<script>
+		//Demo
+		layui.use(['form','jquery'], function(){
+		  var form = layui.form;
+		  window.jquery = window.$ = layui.jquery;
+		  
+
+		  //监听提交
+		  form.on('submit(editPackage)', function(data){
+		    layer.msg(JSON.stringify(data.field));//表单中被序列化好的json数据
+			$.get("http://localhost:8080//customer/UpdateCusServlet",data.field,
+				function(data){
+			layui.alter("修改成功");
+				
+			})
+		    return false;
+		  });
+		});
+		</script>
+	</body>
+</html>

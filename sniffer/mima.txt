@@ -1,0 +1,6 @@
+FTP
+USER:kali
+PASS:kali
+HTTP
+username:123
+userpwd:123

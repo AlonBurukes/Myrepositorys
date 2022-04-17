@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="layui/css/layui.css" media="all">
+  <script type="text/javascript" src="layui/layui.js"></script>
+  <style type="text/css">
+  	body{
+  		 background-image: url(img/简约城市蓝色2.5D商务背景.jpg);
+		 background-repeat: no-repeat;
+  		 background-attachment: fixed;
+			}
+  </style>
+</head>
+<body class="layui-layout-body">
+	<script>
+		var Username = "username:adminiter";
+	</script>
+	
+	
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">后台管理系统</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          administer
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="">退出</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">消息管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">友情链接</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">用户管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">店主管理</a></dd>
+            <dd><a href="javascript:;">新增店主</a></dd>
+            <dd><a href="javascript:;">新增用户</a></dd>
+            <dd><a href="javascript:;">用户信息</a></dd>
+            <dd><a href="javascript:;">用户包裹查询</a></dd>
+          </dl>
+        </li>
+	    	<li class="layui-nav-item">
+		      <a class="" href="javascript:;">物流管理</a>
+		      <dl class="layui-nav-child">
+		        <dd><a href="javascript:;">全球站点查询</a></dd>
+            <dd><a href="javascript:;">驿站管理</a></dd>
+            <dd><a href="javascript:;">添加驿站</a></dd>
+            <dd><a href="javascript:;">包裹管理</a></dd>
+            <dd><a href="javascript:;">添加包裹</a></dd>
+		      </dl>
+		    </li>
+
+      </ul>
+    </div>
+  </div>
+  
+  <div id="main" class="layui-body">
+    <!-- 内容主体区域 -->
+    
+  </div>
+  
+  <div class="layui-footer" >
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  var $ = layui.jquery;
+	$("a").click(function(){
+		//alert($(this).text());
+		var text = $(this).text()
+		
+		 if(text=="友情链接"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="information/Activities.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="店主管理"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="keeper/keeperManagement.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="新增店主"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="keeper/addKeeper.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="新增用户"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="customer/customer-add.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="用户信息"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="customer/customerManagement.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="用户包裹查询"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="customer/customerManagement.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="全球站点查询"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="delivery/routeMap.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="驿站管理"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="delivery/postManager.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="配送员管理"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="delivery/staffManager.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="包裹管理"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="delivery/parcelManager.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="添加驿站"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="delivery/addStation.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="添加包裹"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="delivery/addParcel.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}
+	})
+});
+</script>
+</body>
+</html>

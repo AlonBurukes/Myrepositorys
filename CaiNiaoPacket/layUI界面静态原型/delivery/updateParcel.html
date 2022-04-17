@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<!-- <script type="text/javascript" src="../layui/layui.js"></script> -->
+		<script type="text/javascript" src="plugin/layui/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="plugin/layui/css/layui.css">
+		<script src="plugin/layui/extend/city-picker/city-picker.data.js"></script>
+		<link rel="stylesheet" type="text/css" href="plugin/layui/extend/city-picker/city-picker.css">
+	</head>
+	<body>
+		<form class="layui-form" action="">
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">收件人ID</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="cusId" required  lay-verify="required" placeholder="请输入用户ID" autocomplete="off" class="layui-input cusId">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">包裹ID</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="parId" required lay-verify="required" placeholder="请输入包裹ID" autocomplete="off" class="layui-input parId">
+		    </div>
+		    <div class="layui-form-mid layui-word-aux">如“P00010”</div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">包裹数量</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="parNum" required lay-verify="required" placeholder="请输入包裹数量" autocomplete="off" class="layui-input parNum">
+		    </div>
+		    <div class="layui-form-mid layui-word-aux">请输入0-10以内的数字</div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">包裹总价</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="parSum" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input parSum">
+		    </div>
+          </div>
+          
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">运输种类</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="chaId" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input chaId">
+			</div>
+			<div class="layui-form-mid layui-word-aux">"1"代表“普通”，"2"代表“加急”,请输入1或2</div>
+          </div>
+          
+
+          <div class="layui-form-item">
+		    <label class="layui-form-label">驿站ID</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="staId" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input staId">
+		    </div>
+		  </div>
+		  
+          <div class="layui-form-item">
+		    <label class="layui-form-label">物流公司</label>
+		    <div class="layui-input-block">
+		      <select name="comId" lay-verify="required">
+		        <option value=""></option>
+		        <option value="1">顺丰</option>
+		        <option value="2">邮政</option>
+		        <option value="3">申通</option>
+		        <option value="4">圆通</option>
+                <option value="5">中通</option>
+                <option value="6">韵达</option>
+                <option value="7">百世</option>
+                <option value="8">德邦</option>
+		      </select>
+		    </div>
+          </div>
+
+          <div class="layui-form-item">
+		    <label class="layui-form-label">发件地址</label>
+		    <div class="layui-input-block">
+		      <select name="parStart" lay-verify="required">
+				<option value=""></option>
+		        <option value="xiamen">厦门</option>
+		        <option value="beijing">北京</option>
+		        <option value="guangzhou">广州</option>
+		        <option value="hefei">合肥</option>
+                <option value="shenyang">沈阳</option>
+                <option value="chengdu">成都</option>
+                <option value="taiyuan">太原</option>
+                <option value="jinan">济南</option>
+                <option value="hangzhou">杭州</option>
+                <option value="nanjing">南京</option>
+                <option value="tianjin">天津</option>
+                <option value="shanghai">上海</option>
+		      </select>
+		    </div>
+          </div>
+          
+		  <div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-m" lay-submit="" lay-filter="editPackage">修改</button>
+				<button type="button" class="layui-btn layui-btn-m layui-btn-primary cancle_btn">取消</button>
+			</div>
+		</div>
+   </form>
+		 
+   <script type="text/javascript" src="plugin/layui/layui.all.js"></script>
+		 
+   <script>
+   //Demo
+   layui.use(['form','jquery'], function(){
+	 var form = layui.form;
+	 window.jquery = window.$ = layui.jquery;
+	 
+	 //监听提交
+	 form.on('submit(editPackage)', function(data){
+	   layer.msg(JSON.stringify(data.field)); //表单中被序列化好的json数据
+	   $.get("http://localhost:8080//parcle/UpdateParcleServlet", data.field, function(data) {
+		   layui.alert("修改成功");
+		   //window.location.href = "parcelManagement.html";
+	   })
+	   return false;
+	 });
+   });
+   </script>
+	</body>
+</html>

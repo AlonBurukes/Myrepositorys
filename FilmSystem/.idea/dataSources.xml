@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="data" uuid="66433873-10bb-4f02-9c15-d50245f6241f">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\gitlib\bookmanage\data.sqlite</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="1" uuid="44a60d40-35d9-4e1c-900c-3dc12c0b18d3">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\gitlib\bookmanage\1.db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="shuju" uuid="5bd89a7f-b9c5-4dae-99f1-ca9eb26b5b56">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\gitlib\bookmanage\shuju.db</jdbc-url>
+    </data-source>
+  </component>
+</project>

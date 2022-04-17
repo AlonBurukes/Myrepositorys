@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<script type="text/javascript" src="layui/layui.js"></script>
+	</head>
+	<body>
+		<form class="layui-form" action="">
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">店主ID</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="keeperId" required  lay-verify="required" placeholder="请输入驿站ID" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+	
+
+          <div class="layui-form-item">
+		    <label class="layui-form-label">驿站ID</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="staId" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+		    </div>
+          </div>
+
+
+          <div class="layui-form-item">
+		    <label class="layui-form-label">驿站地址</label>
+		    <div class="layui-input-block">
+		      <select name="staLoc" lay-verify="required">
+		        <option value=""></option>
+		        <option value="xiamen">厦门</option>
+		        <option value="beijing">北京</option>
+		        <option value="guangzhou">广州</option>
+		        <option value="hefei">合肥</option>
+                <option value="shenyang">沈阳</option>
+                <option value="chengdu">成都</option>
+                <option value="taiyuan">太原</option>
+                <option value="jinan">济南</option>
+                <option value="hangzhou">杭州</option>
+                <option value="nanjing">南京</option>
+                <option value="tianjin">天津</option>
+                <option value="shanghai">上海</option>
+		      </select>
+		    </div>
+          </div>
+          
+		  <div class="layui-form-item">
+		    <div class="layui-input-block">
+		      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+		      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		    </div>
+		  </div>
+		</form>
+		 
+        <script>
+            //Demo
+            layui.use(['form','jquery'], function(){
+              var form = layui.form;
+              window.jquery = window.$ = layui.jquery;
+              
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));//表单中被序列化好的json数据
+                $.post("http://localhost:8080/station/AddStaServlet",data.field,function(){
+                    window.location.href = "postManagement.html";
+                })
+                return false;
+              });
+            });
+            </script>
+	</body>
+</html>

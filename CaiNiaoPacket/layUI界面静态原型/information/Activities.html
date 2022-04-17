@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+		*{
+		  margin:0px;
+		}
+		.flash{
+		  width:500px;height:256px;margin:100px auto;position:relative;
+		  overflow:hidden;
+		}
+		.flash ul{width:70px;height:15px;background-color:rgba(0,0,0,0.5);padding:5px 20px;
+		border-radius:10px;position:absolute;top:220px;left:280px;
+		}
+		.flash ul li{width:10px;height:10px;border:1px solid white;float:left;color:#fff;
+		 margin-right:3px;border-radius:7px;padding:1px;list-style-type:none;
+		}
+		 .flash ul li.hover{
+		  background:#fff;
+		 } 
+		 .centerTable{
+			margin: 0px auto;
+		 }
+		body{
+			 background-image: url(img/简约城市蓝色2.5D商务背景.jpg) no-repeat center 0px;
+				background-position: center 0;
+				background-size: cover;}
+		</style>
+		<title></title>
+		<body>
+			
+		</body>
+	</head>
+	<body>
+		<div>
+			<table class="centerTable" >
+				<tr><td><a href="https://www.taobao.com" target="_blank"><img src="img/淘宝网.png" width="200"></a></td>
+					<td><a href="https://www.jd.com" target="_blank"><img src="img/京东.jpg" width="200"></a></td>
+					<td><a href="https://www.tmall.com" target="_blank"><img src="img/天猫.jpg" width="200"></a></td>
+				</tr>
+			
+				<tr>
+					<td><a href="https://www.icourse163.org/" target="_blank"><img src="img/中国大学mooc.png" width="200"></a></td>
+					<td><a href="http://www.scu.edu.cn/" target="_blank"><img src="./img/四川大学.png" width="200"></a></td>
+					<td ><a href="https://www.bilibili.com/" target="_blank"><img src="img/bilibili.png" width="150"class="centerTable"></a></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="flash">
+		  <img src="img/bilibili.png" width="300"/>
+		  <img src="img/中国大学mooc.png" width="500"/>
+		  <img src="img/京东.jpg" width="300"/>
+		  <img src="img/四川大学.png"width="500"/>
+		  <ul class="button">
+		    <li class="hover"></li>
+		    <li></li>
+		    <li></li> 
+		    <li></li>
+		  </ul>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+		  var index=0;//声明序列号默认从0开始的
+		  var play=null;
+		 $(".button li").mouseover(function(){
+		    clearInterval(play);
+		    index=$(this).index();
+		   // alert(index); 
+		   $(this).addClass("hover").siblings().removeClass("hover");
+		   //<!--this表示当前对象sibling表示同等级的对象-->
+		   $(".flash img").eq(index).show().siblings("img").hide();
+		 }).mouseout(function(){
+		   autoplay();
+		 });
+		 function autoplay(){
+		   play=setInterval(function(){
+		   index++;
+		   if(index>3){index=-1;}else{
+		   $(".button li").eq(index).addClass("hover").siblings().removeClass("hover");
+		   $(".flash img").eq(index).show().siblings("img").hide();}
+		   },2000);
+		 }
+		 autoplay();
+		</script>
+	</body>
+</html>

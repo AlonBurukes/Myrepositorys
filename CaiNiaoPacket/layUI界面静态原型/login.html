@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+   <meta http-equiv="Access-Control-Allow-Origin" content="*">
+   <meta charset="utf-8">
+   <title>登录</title>
+   <link rel="stylesheet" href="css/login.css">  
+   <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+   <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+	<style type="text/css">
+		body{
+			 background-image: url(img/简约城市蓝色2.5D商务背景.jpg);
+			 background-repeat: no-repeat;
+			 background-attachment: fixed;
+				}
+	</style>
+</head>
+<body>
+	<form action="index.html">
+    <div class="container">
+        <div class="form row">
+            <div class="form-horizontal col-md-offset-3" id="login_form">
+                <h3 class="form-title">登录</h3>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <i class="fa fa-user fa-lg"></i>
+                       用户名： <input class="form-control required" type="text" placeholder="请输入用户名" id="name" name="name" autofocus="autofocus" maxlength="20"/>
+                    </div>
+                    <div class="form-group">
+                            <i class="fa fa-lock fa-lg"></i>
+                          密码：  <input class="form-control required" type="password" placeholder="请输入密码" id="passWord" name="passWord" maxlength="8"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="1"/>记住我
+                        </label>
+                    </div>
+                    <div class="form-group col-md-offset-9">
+                        <button type="submit" class="btn btn-success pull-right" name="submit" onclick="return checkuser()">登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</form>
+</body>
+<script type="text/javascript">
+    function checkuser() {
+		var isdebug = true;
+		var password = document.getElementById("passWord").value;
+		var truepassword = "1";
+		var isuser = false;
+        if(!isuser) { 
+			$.ajax({
+				url:"http://localhost:8080/LoginServlet",
+				data:"name="+document.getElementById("name").value+"&passWord="+document.getElementById("passWord").value,
+				type:"post",
+				dataType:"JSON",
+				async:false,
+				success:function(data){
+					console.log(password);
+					console.log(data);
+					console.log(truepassword);
+					console.log(data.keeperPassword);
+					if(data.cusPassWord==password){
+						isuser = true; 
+					}
+					if(data.keeperPassword==password){
+						isuser = true; 
+					}
+					console.log(isuser);
+				}
+			})
+			console.log(isuser);
+			 console.log(truepassword);
+        }
+		if(isuser){
+		return true;
+		}
+	    if(document.getElementById("name").value=="ADM"&&document.getElementById("passWord").value=="adm123") {
+            return true; 
+        }
+		else { 
+            alert("登录名或密码错误！")
+            return false; 
+        } 
+    } 
+</script> 
+</html>

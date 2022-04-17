@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %}查询电影信息{% endblock %}
+
+{% block card %}<div class="layui-card-header"><h2>查询电影信息</h2></div>{% endblock %}
+{% block body %}
+    <form class="layui-form" method="post" id="searchForm">
+    {{ form.csrf_token }}
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <div class="layui-row layui-col-space10">
+                    <div class="layui-col-md4">
+                        {{ form.method(class="layui-input-inline") }}
+                    </div>
+                    <div class="layui-col-md6">
+                        <label class="layui-form-label">查询内容：</label>
+                        <div class="layui-input-inline">
+                            {{ form.content(class="layui-input",style="width:250px") }}
+                        </div>
+                    </div>
+                    <div class="layui-col-md2">
+                        <div class="layui-input-inline">{{ form.submit(class="layui-btn", id="search") }}</div>
+
+                    </div>
+                    <div class="layui-col-md2">
+                        <div class="layui-input-inline">{{ form.spider(class="layui-btn", id="spider") }}</div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div id="remove">
+    <table lay-even id="result" lay-filter="re">
+      <thead>
+        <tr>
+          <th lay-data="{field:'movieID', width:140}" id = "movieID">电影编号</th>
+          <th lay-data="{field:'movieName', width:200}" id = "movieName">电影名</th>
+          <th lay-data="{field:'actor', width:180}" id = "actor">演员</th>
+          <th lay-data="{field:'brief', width:140}" id = "brief">简介</th>
+          <th lay-data="{field:'OnTime', width:200}" id = "OnTime">时间</th>
+          <th lay-data="{field:'type', width:120}" id = "type">类型</th>
+          <th lay-data="{field:'box', width:120}" id = "box">票房</th>
+          <th lay-data="{field:'grade',width:120}" id = "grade">评分</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    </div>
+    <table id="test" lay-filter="test"></table>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/html" id="test-table-toolbar-barDemo">
+          <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+          <a class="layui-btn layui-btn-xs" lay-event="comment">查看评论</a>
+
+    </script>
+    <script>
+    layui.use(['form','table','jquery'], function(){
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.$;
+
+        table.init('re', {
+              height: 390
+              ,limit: 7
+              ,page: true
+        });
+
+        $(document).ready(function(){
+            $('#search').on('click',function () {
+                var form = new FormData(document.getElementById("searchForm"));
+                if($('#content').val() === ""){
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+
+                        layer.msg('请填写查询内容',{time: 800});
+                    });
+                }
+                else{
+                    $.ajax({
+                        url:"{{ url_for('find_movie') }}",
+                        type:"post",
+                        data:form,
+                        processData:false,
+                        contentType:false,
+                        success:function(data){
+                            if (data.length !== 0){
+                                $('#remove').remove();
+                                table.render({
+                                    elem: '#test'
+                                    ,data:data
+                                    ,cols: [[
+                                      {field:'movieID', title:'电影编号', width:140}
+                                      ,{field:'movieName', title:'电影名', width:200}
+                                      ,{field:'actor', title:'演员', width:180}
+                                      ,{field:'brief', title:'简介', width:140}
+                                      ,{field:'OnTime', title:'时间', width:200}
+                                      ,{field:'type', title:'类型', width:120}
+                                      ,{field:'box', title:'票房',width:120}
+                                      ,{field:'grade', title:'评分'}
+									  ,{title:'其他操作',width:215, align:'center', fixed: 'right', toolbar: '#test-table-toolbar-barDemo'}
+                                    ]]
+                                    ,page: true
+                                    ,height: 390
+                                    ,limit: 7
+                                    ,response: {
+                                      statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+                                    }
+                                    ,parseData: function(data){ //将原始数据解析成 table 组件所规定的数据
+                                      return {
+                                        "code": data.status, //解析接口状态
+                                        "msg": data.message, //解析提示文本
+                                        "count": data.total, //解析数据长度
+                                        "data": data.rows.item //解析数据列表
+                                      };
+                                    }
+                                });
+                            }
+                            else{
+                                layui.use('layer', function(){
+                                    var layer = layui.layer;
+
+                                    layer.msg('未找到任何结果',{time: 1000});
+                                });
+                            }
+                        }
+                    });
+                }
+                return false;
+            })
+        });
+    table.on('tool(test)', function(obj){
+      var data = obj.data;
+	  var $ = layui.$;
+	  console.log(obj)
+      if(obj.event === 'del'){
+        layer.confirm('真的删除行么', function(index){
+		obj.del();
+		  $.ajax({
+		    url:"{{ url_for('deleteMovie') }}"+'?movieID='+obj.data["movieID"],
+            type:"post",
+            data:JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+			processData:false,
+            contentType:false,
+		  }
+		  )
+		  
+          layer.close(index);
+        });
+      } else if(obj.event === 'edit'){
+    layer.open({
+      type: 2,
+      title: '请填写表单',
+      shadeClose: true,
+      shade: 0.8,
+      area: ['580px', '90%'],
+      shadeClose: false,
+      content: '/edit_movie'
+    });
+      }
+      else if(obj.event === 'comment'){
+	  var movieID = obj.data["movieID"];
+    layer.open({
+      type: 2,
+      title: '评论详情',
+      shadeClose: true,
+      shade: 0.8,
+      area: ['720px', '90%'],
+      shadeClose: false,
+      content: '/comment?movieID='+movieID
+    });
+      }
+    });
+    });
+    </script>
+{% endblock %}

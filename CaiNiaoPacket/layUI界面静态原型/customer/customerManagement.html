@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<script type="text/javascript" src="../layui/layui.js"></script>
+	</head>
+	<body class="layui-layout-body">
+		
+		<div>
+			<div class="layui-inline">
+				<input type="text" name="title" required lay-verify="required" placeholder="请输入用户id" autocomplete="off" class="layui-input" style="width:125px;" >
+			</div>
+			<div class="layui-inline">
+				<button type="button" class="layui-btn"  id="findByCusId">查找用户</button>
+			</div>
+		</div>
+		
+		<table class="layui-hide" id="test" lay-filter="test"></table>
+		
+		<script>
+		//封装了tableInit的对象/函数，根据不同的url来实现表格的渲染
+		var tableInit = function(url){//url代表的是渲染表格的请求路径
+			layui.use('table', function(){
+			  var $ = layui.$;
+				
+			  var table = layui.table;
+			  
+			  table.render({
+			    elem: '#test'
+			    ,url: url
+				,parseData: function(res){ //res 即为原始返回的数据
+				    return {
+				      "code": 0, //解析接口状态
+				      "msg": "OK", //解析提示文本
+				      "count": 100, //解析数据长度
+				      "data": res //解析数据列表
+				    };
+				}
+			    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+			    ,cols: [[
+			      {field:'cusId', width:180, title: 'ID', sort: true}
+			      ,{field:'cusName', width:180, title: '用户名'}
+			      ,{field:'cusPassWord', width:180, title: '密码'}
+			      ,{field:'cusLoc', width:180, title: '住址'}
+				  ,{field:'cusTel', width:180, title: '联系方式'}
+				  ,{field:'cunDate', width:180, title: '用户注册时间'}
+				  ,{fixed: 'right', width:250, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+			    ]]
+			  });
+			  
+			  //监听工具条 
+			  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+			    var data = obj.data; //获得当前行数据
+			    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			    var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+			   
+				 if(layEvent === 'del'){ //删除
+			      layer.confirm('真的删除行么', function(index){
+			        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			        layer.close(index);
+			        //向服务端发送删除指令:ajax
+					console.log(data.cusId)
+					$.ajax({
+						url:"http://localhost:8080/customer/DeleteServlet",    //这个地方的url没有写上
+						data:"cusId="+data.cusId,
+						type:"post",
+						dataType:"JSON",
+						success:function(res){
+							console.log(res);
+						}
+					})
+			      });
+			    } else if(layEvent === 'edit'){ //编辑
+			      //do something 跳转到详情编辑界面
+			      console.log("编辑数据")
+				  window.location.href = "customer-edit.html?id+";
+			    } else if(layEvent === 'LAYTABLE_TIPS'){
+			      layer.alert('Hi，头部工具栏扩展的右侧图标。');
+			    }
+			  });
+			});
+		}
+		
+		tableInit("http://localhost:8080/customer/FinallServlet"); //这里也没有写完
+		
+		//根据id查询，重新渲染表格，事件和tableInit()绑定
+		layui.use('layer', function(){ 
+		  var $ = layui.$ //由于layer弹层依赖jQuery，所以可以直接得到
+		  ,layer = layui.layer;
+		 
+		  //jQuery
+		  $("#findByCusId").on('click',function(){
+			  var id = $(this).parent().parent().find(".layui-input").val();
+			  tableInit("http://localhost:8080/customer/FinByIdServlet"+"?"+"cusId="+id);  //url
+		  })
+		  
+
+		});
+		
+		
+		</script>
+		<script type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		  
+		  <!-- 这里同样支持 laytpl 语法，如： -->
+		  {{#  if(d.auth > 2){ }}
+		    <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+		  {{#  } }}
+		</script>
+	</body>
+</html>

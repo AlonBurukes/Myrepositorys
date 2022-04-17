@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}场次管理{% endblock %}
+
+{% block card %}
+    <div class="layui-card-header">
+        <h2>新增场次</h2>
+        <button class="layui-btn layui-btn-lg" style="float:right;margin-top:-50px;margin-right:40px;" id="newbook">
+            <i class="layui-icon">&#xe608;</i>新增场次
+        </button>
+    </div>
+{% endblock %}
+{% block body %}
+    <form class="layui-form" method="post" id="searchForm">
+    {{ form.csrf_token }}
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <div class="layui-row layui-col-space10">
+                    <div class="layui-col-md4">
+                        {{ form.method(class="layui-input-inline") }}
+                    </div>
+                    <div class="layui-col-md6">
+                        <label class="layui-form-label">查询内容：</label>
+                        <div class="layui-input-inline">
+                            {{ form.content(class="layui-input",style="width:250px") }}
+                        </div>
+                    </div>
+                    <div class="layui-col-md2">
+                        <div class="layui-input-inline">{{ form.spider(class="layui-btn", id="spider") }}</div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    layui.use(['form','jquery'], function () {
+        var form = layui.form;
+        var $ = layui.$;
+
+    });
+    $(document).ready(function(){
+        $("#spider").on('click',function () {
+            window.location.href="/startspider";
+        })
+
+    });
+    
+</script>
+{% endblock %}

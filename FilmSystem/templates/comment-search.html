@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>查看评论</title>
+  <link rel="stylesheet" href="../static/layui/css/layui.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+      .alert{position:relative;padding:.75rem 1.25rem;margin-bottom:1rem;border:1px solid transparent;border-radius:.25rem}
+      .close{position:absolute;top:0;right:0;padding:.75rem 1.25rem;color:inherit}
+      .alert-warning{color:#856404;background-color:#fff3cd;border-color:#ffeeba}
+      .close{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:.5}
+      .close:focus,.close:hover{color:#000;text-decoration:none;opacity:.75}
+      .close:not(:disabled):not(.disabled){cursor:pointer}
+      button.close{padding:0;background-color:transparent;border:0;-webkit-appearance:none}
+      .close{padding:1rem;margin:-1rem -1rem -1rem auto}
+      .alert-dismissible .close{position:absolute;top:0;right:0;padding:.75rem 1.25rem;color:inherit}
+	  .layui-body-full{position:absolute;left:0px;right:0;top:0;bottom:0;z-index:998;width:auto;overflow:hidden;overflow-y:auto;box-sizing:border-box}
+  </style>
+</head>
+
+  <div class="layui-body-full">
+    <!-- 内容主体区域 -->
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <a href="{{ url_for('index') }}"><div class="layui-logo">电影管理系统</div></a>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="../static/icon.jpg" class="layui-nav-img">
+          {{ name }}
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{ url_for('user_info', id=current_user.admin_id) }}">个人信息</a></dd>
+          <dd><a href="{{ url_for('change_password') }}">修改密码</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="{{ url_for('logout') }}">退出登录</a></li>
+    </ul>
+  </div>
+  </div>
+      <div class="layui-card layui-row layui-col-space10" style="margin:15px 10px;width:100%;">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+        </div>
+        {% endfor %}
+            <div class="layui-card-header">
+        <h2>查看评论</h2>
+        <div class="layui-card-body">
+          <img src="{comments.MOVIEPIC}">
+        </div>
+    </div>
+  </div>
+     <div id="remove">
+    <table lay-even id="result" lay-filter="re">
+      <thead>
+        <tr>
+          <th lay-data="{field:'movieID', width:50}" id = "commentID">类型</th>
+          <th lay-data="{field:'movieName', width:100}" id = "movieName">详情</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td lay-data="{ width:140}">电影编号</td><td lay-data="{ width:140}">{{comments.movieID}}</td>
+        <td lay-data="{ width:140}">电影名</td><td lay-data="{ width:140}">{{comments.movieName}}</td>
+        <td lay-data="{ width:140}">导演</td><td lay-data="{ width:140}">{{comments.DIRECTOR}}</td>
+        <td lay-data="{ width:140}">别名</td><td lay-data="{ width:140}">{{comments.ANOTHER}}</td>
+        <td lay-data="{ width:140}">演员</td><td lay-data="{ width:140}">{{comments.actor}}</td>
+        <td lay-data="{ width:140}">评分</td><td lay-data="{ width:140}">{{comments.grade}}</td>
+        <td lay-data="{ width:140}">上映时间</td><td lay-data="{ width:140}">{{comments.OnTime}}</td>
+        <td lay-data="{ width:140}">时长</td><td lay-data="{ width:140}">{{comments.time}}</td>
+        <td lay-data="{ width:140}">类型</td><td lay-data="{ width:140}">{{comments.type}}</td>
+        <td lay-data="{ width:140}">编剧</td><td lay-data="{ width:140}">{{comments.AUTHOR}}</td>
+        <td lay-data="{ width:140}">IMDB</td><td lay-data="{ width:140}">{{comments.IMDB}}</td>
+        <td lay-data="{ width:140}">简介</td><td lay-data="{ width:140}">{{comments.brief}}</td>
+        <td lay-data="{ width:140}">上映地区</td><td lay-data="{ width:140}">{{comments.MOVIENAT}}</td>
+        <td lay-data="{ width:140}">语言</td><td lay-data="{ width:140}">{{comments.MOVIELANGUAGE}}</td>
+        <td lay-data="{ width:140}">评论数量</td><td lay-data="{ width:140}">{{comments.COMMENTNUM}}</td>
+        <td lay-data="{ width:140}">评论者</td><td lay-data="{ width:140}">{{comments.COMMENTNAME}}</td>
+        <td lay-data="{ width:140}">评论日期</td><td lay-data="{ width:140}">{{comments.COMMENTDATE}}</td>
+        <td lay-data="{ width:140}">评论</td><td lay-data="{ width:140}">{{comments.COMMENT}}</td>
+        <td lay-data="{ width:140}">有效评论</td><td lay-data="{ width:140}">{{comments.VAILDCOMMENTNUM}}</td>
+        <td lay-data="{ width:140}">影评数量</td><td lay-data="{ width:140}">{{comments.REVIEWNUM}}</td>
+        <td lay-data="{ width:140}">影评者</td><td lay-data="{ width:140}">{{comments.REVIEWNAME}}</td>
+        <td lay-data="{ width:140}">影评日期</td><td lay-data="{ width:140}">{{comments.REVIEWDATE}}</td>
+        <td lay-data="{ width:140}">影评</td><td lay-data="{ width:140}">{{comments.REVIEW}}</td>
+        <td lay-data="{ width:140}">影评赞</td><td lay-data="{ width:140}">{{comments.REVIEWUP}}</td>
+        <td lay-data="{ width:140}">影评踩</td><td lay-data="{ width:140}">{{comments.REVIEWDOWN}}</td>
+        <td lay-data="{ width:140}">影评回复</td><td lay-data="{ width:140}">{{comments.REVIEWREPLY}}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <table id="test" lay-filter="test"></table>
+</body>
+
+<script src="../static/layui/layui.js"></script>
+<script>
+
+layui.use('element', function(){
+  var element = layui.element;
+  element.init();
+});
+</script>	
+<script type="text/javascript">
+    layui.use(['form','jquery'], function () {
+        var form = layui.form;
+        var $ = layui.$;
+
+    });
+    $(document).ready(function(){
+        $("#newbook").on('click',function () {
+            window.location.href="/edit_session";
+        })
+    });
+    
+</script>
+    <script>
+    layui.use(['form','table','jquery'], function(){
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.$;
+
+        table.init('re', {
+              height: 390
+              ,limit: 10
+              ,page: true
+        });
+
+        $(document).ready(function(){
+                    console.log(data)
+                    $.ajax({
+                        url:"{{ url_for('find_comment') }}",
+                        type:"post",
+                        data:data,
+                        processData:false,
+                        contentType:false,
+                        success:function(data){
+							console.log(getQueryString("movieID"));
+                            if (data.length !== 0){
+                                $('#remove').remove();
+                                table.render({
+                                    elem: '#test',
+									data:JSON.stringify(data),
+									dataType: 'json',
+									contentType: 'application/json'
+                                    ,cols: [[
+                                      {field:'commentID', title:'评论编号', width:140}
+                                      ,{field:'movieName', title:'电影名', width:200}
+                                      ,{field:'comment', title:'评论详情'}
+                                    ]]
+                                    ,page: true
+                                    ,height: 390
+                                    ,limit: 10
+                                    ,response: {
+                                      statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+                                    }
+                                    ,parseData: function(data){ //将原始数据解析成 table 组件所规定的数据
+                                      return {
+                                        "code": data.status, //解析接口状态
+                                        "msg": data.message, //解析提示文本
+                                        "count": data.total, //解析数据长度
+                                        "data": data.rows.item //解析数据列表
+                                      };
+                                    }
+                                });
+                            }
+                            else{
+                                layui.use('layer', function(){
+                                    var layer = layui.layer;
+
+                                    layer.msg('未找到任何结果',{time: 1000});
+                                });
+                            }
+                        }
+                    });
+                return false;
+
+        });
+
+    });
+    </script>

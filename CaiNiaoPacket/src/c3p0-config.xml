@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- c3p0的配置 包含了最近基本的数据源 -->
+<c3p0-config>
+    <!--
+    C3P0的缺省(默认)配置，
+    如果在代码中“ComboPooledDataSource ds = new ComboPooledDataSource();”这样写就表示使用的是C3P0的缺省(默认)配置信息来创建数据源
+    -->
+    <default-config>
+        <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/cainiao?userUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=GMT%2B8</property>
+        <property name="user">root</property>
+        <property name="password">101428</property>
+        
+        <!--配置增长的数量  -->
+        <property name="acquireIncrement">5</property>
+        <!-- 初始化的连接池数量 -->
+        <property name="initialPoolSize">10</property>
+        <!-- 最低池资源的数量 -->
+        <property name="minPoolSize">5</property>
+        <!-- 最高的池资源的数量 -->
+        <property name="maxPoolSize">20</property>
+    </default-config>
+</c3p0-config>
